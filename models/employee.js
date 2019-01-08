@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 let empSchema = mongoose.Schema(
     {
+        "empid":Number,
         "name":String,
-        "salary":Number,
-        "phone":Number
+        "salary":Number
     },
     { collection: 'employees'} 
     );
