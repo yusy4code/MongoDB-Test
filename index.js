@@ -62,7 +62,8 @@ app.post('/employees/add', (req, res) => {
   
   let empName = req.body.name;
   let empSalary = req.body.salary;
-  let empObj = {"id":2, "name":empName, "salary": empSalary};
+  let empid = req.body.empid;
+  let empObj = {"empid":empid, "name":empName, "salary": empSalary};
   
   Employee.create(empObj, (err) => {
     if (err) {
