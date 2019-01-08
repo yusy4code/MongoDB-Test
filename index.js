@@ -60,20 +60,33 @@ app.get('/employees/:id', (req, res) => {
 
 app.post('/employees/add', (req, res) => {
   
-  let empName = req.body.name;
-  let empSalary = req.body.salary;
-  let empid = req.body.empid;
-  let empObj = {"empid":empid, "name":empName, "salary": empSalary};
+  Employee.findOne().sort('-empid').exec(
+    (err, member) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (member == null) {
+          var empid = 1;
+        } else {
+          var empid = member.empid + 1;
+        }
+        let empName = req.body.name;
+        let empSalary = req.body.salary;
+        let empObj = {"empid":empid, "name":empName, "salary": empSalary};
+        
+        Employee.create(empObj, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('Created..');
+            res.setHeader('content-type','application/json');
+            res.end('Created');  
+          }
+        });
+      }
+    });
   
-  Employee.create(empObj, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Created..');
-      res.setHeader('content-type','application/json');
-      res.end('Created');  
-    }
-  });
+
 });
 
 app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
